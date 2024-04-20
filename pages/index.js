@@ -1,7 +1,7 @@
 import { useRef } from "react";
 
 function HomePage() {
-  const emailInput =  useRef();
+  const emailInput = useRef();
   const feedbackInput = useRef();
 
   function submitFormHandler(event) {
@@ -10,8 +10,20 @@ function HomePage() {
     const enteredEmail = emailInput.current.value;
     const enteredFeedback = feedbackInput.current.value;
 
-    // fetch(): // {email: 'test@test.com', text: 'Some feedback text'}
+    const reqBody = { email: enteredEmail, text: enteredFeedback };
 
+    // this will recognized as an absolute path
+    // because we are in the same domain
+    // and api route belongs to the same project
+    fetch("/api/feedback", {
+      method: "POST",
+      body: JSON.stringify(reqBody),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
   }
 
   return (
@@ -20,11 +32,11 @@ function HomePage() {
       <form onSubmit={submitFormHandler}>
         <div>
           <label htmlFor="email">Your email address</label>
-          <input id="email" type="email" ref={emailInput}/>
+          <input id="email" type="email" ref={emailInput} />
         </div>
         <div>
           <label htmlFor="feedback">Your feedback</label>
-          <textarea id="feedback" rows='5' ref={feedbackInput}></textarea>
+          <textarea id="feedback" rows="5" ref={feedbackInput}></textarea>
         </div>
         <button>Send feedback</button>
       </form>

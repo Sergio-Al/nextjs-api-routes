@@ -5,13 +5,12 @@ import path from "path";
 // It will never be exposed!
 function handler(req, res) {
   if (req.method === "POST") {
-    console.log("Hi im a post method request!");
     const email = req.body.email;
     const feedbackText = req.body.text;
 
     const newFeedback = {
       id: new Date().toISOString(),
-      email,
+      email: email,
       text: feedbackText,
     };
 
